@@ -1,0 +1,56 @@
+{% extends 'index/base/base.html' %}
+{% block contents %}
+    <div class="container">
+        {% if user.is_authenticated %}
+            <div class="alert alert-danger" role="alert">
+                이미 로그인했습니다.
+            </div>
+        {% else %}
+            <h1 class="mt-2 mb-3 fw-normal text-center">회원가입</h1>
+            <div class="alert alert-danger" role="alert">
+                세명컴퓨터고등학교 인공지능소프트웨어과에서 사용하는 사이트입니다. 해당 학생만 가입할 수 있습니다.
+            </div>
+            <div class="form-signup">
+                <form class="w-100" action="{% url 'signup' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="row mb-3">
+                        <label for="inputNumber" class="col-sm-3 col-form-label">학번</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="inputNumber" name="number" value="{{ number }}"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputName" class="col-sm-3 col-form-label">이름</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="inputName" name="name" value="{{ name }}"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">비밀번호</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" id="inputPassword"
+                                   placeholder="반드시 8~20자 내에 숫자를 1개 이상 포함해야 합니다." name="password" value="{{ password }}"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputConfirmPassword" class="col-sm-3 col-form-label">비밀번호 확인</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" id="inputConfirmPassword"
+                                   name="confirm_password" value="{{ confirm_password }}" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary float-end">회원가입</button>
+                </form>
+            </div>
+            {% for error in errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ error }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}
