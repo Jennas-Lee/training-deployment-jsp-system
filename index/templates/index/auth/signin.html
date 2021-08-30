@@ -2,24 +2,32 @@
 {% block contents %}
     <div class="container">
         {% if user.is_authenticated %}
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger mt-2" role="alert">
                 이미 로그인했습니다.
             </div>
         {% else %}
             <h1 class="mt-2 mb-3 fw-normal text-center">로그인</h1>
             <form class="form-signin" action="{% url 'signin' %}" method="POST">
-            {% csrf_token %}
+                {% csrf_token %}
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="floatingInput" placeholder="학번">
+                    <input type="text" class="form-control" id="floatingInput" placeholder="학번" name="number"
+                           value="{{ number }}">
                     <label for="floatingInput">학번</label>
                 </div>
                 <div class="form-floating">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="비밀번호">
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="비밀번호"
+                           name="password" value="{{ password }}">
                     <label for="floatingPassword">비밀번호</label>
                 </div>
                 <button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
-            <a class="w-100 btn btn-lg btn-success mt-2" href="{% url 'signup' %}">회원가입</a>
+                <a class="w-100 btn btn-lg btn-success mt-2" href="{% url 'signup' %}">회원가입</a>
             </form>
+            {% for error in errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ error }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
         {% endif %}
     </div>
 {% endblock %}

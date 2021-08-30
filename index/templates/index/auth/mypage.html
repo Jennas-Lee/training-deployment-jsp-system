@@ -1,0 +1,53 @@
+{% extends 'index/base/base.html' %}
+{% block contents %}
+    <div class="container">
+        {% if user.is_authenticated %}
+            <h1 class="mt-2 mb-3 fw-normal text-center">마이페이지</h1>
+            <div class="form-signup">
+                <form class="w-100" action="{% url 'mypage' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="row mb-3">
+                        <label for="staticNumber" class="col-sm-3 col-form-label">학번</label>
+                        <div class="col-sm-9">
+                            <input type="text" readonly class="form-control-plaintext" id="staticNumber"
+                                   value="{{ user.number }}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="staticName" class="col-sm-3 col-form-label">이름</label>
+                        <div class="col-sm-9">
+                            <input type="text" readonly class="form-control-plaintext" id="staticName"
+                                   value="{{ user.name }}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">비밀번호</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" id="inputPassword"
+                                   placeholder="반드시 8~20자 내에 숫자를 1개 이상 포함해야 합니다." name="password" value="{{ password }}"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputConfirmPassword" class="col-sm-3 col-form-label">비밀번호 확인</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" id="inputConfirmPassword"
+                                   name="confirm_password" value="{{ confirm_password }}" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary float-end">저장</button>
+                </form>
+            </div>
+            {% for error in errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ error }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-danger mt-2" role="alert">
+                <a href="{% url 'signin' %}" class="alert-link">로그인이 필요합니다.</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

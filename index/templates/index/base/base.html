@@ -26,10 +26,23 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">대시보드</a>
                     </li>
+                    {% if user.is_admin %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                시스템 관리
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'user-list' %}">사용자 목록</a></li>
+                                <li><a class="dropdown-item" href="#">서버 상태</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
                 {% endif %}
             </ul>
             {% if user.is_authenticated %}
-                {{ request.user.number }}
+                <a href="{% url 'mypage' %}" class="btn btn-outline-primary me-2 d-flex">마이페이지</a>
+                <a href="{% url 'signout' %}" class="btn btn-outline-secondary d-flex">로그아웃</a>
             {% else %}
                 <a href="{% url 'signin' %}" class="btn btn-outline-primary d-flex">로그인</a>
             {% endif %}

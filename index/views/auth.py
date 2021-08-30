@@ -1,6 +1,7 @@
 import re
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import auth
 
 from index.models import User
 
@@ -13,7 +14,16 @@ def signin(request):
         number = request.POST.get('number')
         password = request.POST.get('password')
 
-        return render(request, 'index/auth/signin.html')
+        errors = []
+
+        user = auth.authenticate(request, number=number, password=password)
+
+        if user is not None:
+            auth.login(request, user)
+
+            return redirect('index')
+        else:
+            return render(request, 'index/auth/signin.html', {'number': number, 'password': password, 'errors': errors})
 
 
 def signup(request):
@@ -57,5 +67,44 @@ def signup(request):
         else:
             user = User.objects.create_user(number=number, name=name, password=password)
             user.save()
+            auth.login(request, user)
 
             return render(request, 'index/auth/signup-success.html')
+
+
+def signout(request):
+    auth.logout(request)
+
+    return redirect('index')
+
+
+def mypage(request):
+    if request.method == 'GET':
+        return render(request, 'index/auth/mypage.html')
+
+    elif request.method == 'POST':
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+
+        errors = []
+
+        if re.compile('^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d~!@#$%^&*()+|=]{8,20}$').match(password) is None:
+            errors.append('비밀번호 형식이 잘못되었습니다.')
+        else:
+            pass
+
+        if password != confirm_password:
+            errors.append('비밀번호 확인이 일치하지 않습니다.')
+        else:
+            pass
+
+        if len(errors) > 0:
+            return render(request, 'index/auth/mypage.html',
+                          {'errors': errors, 'password': password, 'confirm_password': confirm_password})
+        else:
+            user = request.user
+
+            user.set_password(password)
+            user.save()
+
+            return render(request, 'index/auth/mypage-success.html')

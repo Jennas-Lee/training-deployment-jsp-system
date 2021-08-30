@@ -3,11 +3,12 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, number, name, submit=False, password=None):
+    def create_user(self, number, name, password=None, repository=None, is_active=0):
         user = self.model(
             number=number,
             name=name,
-            submit=submit
+            repository=repository,
+            is_active=is_active
         )
 
         user.set_password(password)
@@ -19,8 +20,9 @@ class UserManager(BaseUserManager):
         user = self.create_user(
             number,
             name,
-            True,
-            password
+            password,
+            None,
+            1
         )
 
         user.is_admin = True
@@ -32,14 +34,14 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser):
     number = models.CharField(max_length=5, unique=True)
     name = models.CharField(max_length=11)
-    submit = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
+    repository = models.URLField(null=True, blank=True)
+    is_active = models.SmallIntegerField(default=0)
     is_admin = models.BooleanField(default=False)
 
     objects = UserManager()
 
     USERNAME_FIELD = 'number'
-    REQUIRED_FIELDS = ['name', 'submit']
+    REQUIRED_FIELDS = ['name']
 
     def __str__(self):
         return self.number

@@ -1,6 +1,6 @@
 {% extends 'index/base/base.html' %}
 {% block contents %}
     <div class="alert alert-danger container mt-2" role="alert">
-        회원가입이 완료되었습니다. <strong>승인 후 이용 가능합니다.</strong>
+        {{ error }} <a href="javascript:history.back();" class="alert-link">뒤로가기</a>
     </div>
 {% endblock %}

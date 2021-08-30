@@ -1,0 +1,137 @@
+{% extends 'index/base/base.html' %}
+{% block contents %}
+    <div class="container">
+        {% if user.is_authenticated and user.is_admin %}
+            <h1 class="mt-2 mb-3 fw-normal text-center">사용자 목록</h1>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">학번</th>
+                    <th scope="col">이름</th>
+                    <th scope="col">깃허브</th>
+                    <th scope="col">수정</th>
+                    <th scope="col">삭제</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in page_obj %}
+                    <tr>
+                        <th scope="row" class="{% if user.is_admin %}text-primary{% endif %}">{{ forloop.counter }}</th>
+                        <td class="{% if user.is_admin %}text-primary{% endif %}">{{ user.number }}</td>
+                        <td class="{% if user.is_admin %}text-primary{% endif %}">{{ user.name }}</td>
+                        <td>
+                            {% if user.repository %}
+                                <a href="{{ user.repository }}" class="text-decoration-none" target="_blank">
+                                    {{ user.repository }}
+                                </a>
+                            {% endif %}
+                        </td>
+                        <td><a href="{% url 'update-user' user.number %}" class="btn btn-warning">수정</a></td>
+                        <td>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#requestSubmit"
+                                    onclick="request('{{ user.number }}', '{{ user.name }}');">
+                                삭제
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% for page_num in page_obj.paginator.page_range %}
+                        <li class="page-item {% if page_num == page_obj.number %}active{% endif %}">
+                            <a class="page-link" href="#">{{ page_num }}</a>
+                        </li>
+                    {% endfor %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <a href="{% url 'request-list' %}" class="btn btn-primary float-end">
+                승인 대기 목록
+                {% if request_count %}
+                    <span class="badge bg-secondary">{{ request_count }}</span>
+                {% endif %}
+            </a>
+            <div class="modal fade" id="requestSubmit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                 aria-labelledby="requestSubmitLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="requestSubmitLabel">
+                                사용자를 삭제하시겠습니까?
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <span id="modal-text" class="text-primary"></span>님을 삭제하시겠습니까?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                            <a href="#" class="btn btn-primary" id="modal-submit-btn">
+                                삭제
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                function _0x1e42(_0x52e6a5, _0x588922) {
+                    const _0x3c7447 = _0x3c74();
+                    return _0x1e42 = function (_0x1e4231, _0x54802b) {
+                        _0x1e4231 = _0x1e4231 - 0x19a;
+                        let _0x19489a = _0x3c7447[_0x1e4231];
+                        return _0x19489a;
+                    }, _0x1e42(_0x52e6a5, _0x588922);
+                }
+
+                (function (_0x5520ea, _0x50e7a4) {
+                    const _0x2a5320 = _0x1e42, _0x517c94 = _0x5520ea();
+                    while (!![]) {
+                        try {
+                            const _0x21b3b6 = -parseInt(_0x2a5320(0x1aa)) / 0x1 * (parseInt(_0x2a5320(0x1a3)) / 0x2) + -parseInt(_0x2a5320(0x1a7)) / 0x3 * (parseInt(_0x2a5320(0x1ab)) / 0x4) + -parseInt(_0x2a5320(0x1a8)) / 0x5 * (parseInt(_0x2a5320(0x19c)) / 0x6) + parseInt(_0x2a5320(0x19e)) / 0x7 * (parseInt(_0x2a5320(0x1a0)) / 0x8) + -parseInt(_0x2a5320(0x1a2)) / 0x9 + -parseInt(_0x2a5320(0x1ac)) / 0xa + parseInt(_0x2a5320(0x1a9)) / 0xb * (parseInt(_0x2a5320(0x19b)) / 0xc);
+                            if (_0x21b3b6 === _0x50e7a4) break; else _0x517c94['push'](_0x517c94['shift']());
+                        } catch (_0x593269) {
+                            _0x517c94['push'](_0x517c94['shift']());
+                        }
+                    }
+                }(_0x3c74, 0x75bb1));
+
+                function _0x3c74() {
+                    const _0x1bb9c8 = ['12LvHTTZ', '6276oKQZjU', 'setAttribute', '7lOgAzc', 'getElementById', '6237944XHAxAD', '/admin/delete/', '3743010nVOUiu', '835790cdTIlP', 'href', 'innerText', 'modal-submit-btn', '1832787CDgYmM', '3070jCCiOL', '21007877QXIivj', '1bwGAfq', '4IpnrUB', '1203670EfVqVJ', 'modal-text'];
+                    _0x3c74 = function () {
+                        return _0x1bb9c8;
+                    };
+                    return _0x3c74();
+                }
+
+                const request = (_0x2c05ed, _0x298a0c) => {
+                    const _0x276863 = _0x1e42;
+                    let _0x598559 = document[_0x276863(0x19f)](_0x276863(0x19a)),
+                        _0x520e04 = document['getElementById'](_0x276863(0x1a6)),
+                        _0x5e9451 = _0x276863(0x1a1) + _0x2c05ed;
+                    _0x598559[_0x276863(0x1a5)] = _0x2c05ed + '\x20' + _0x298a0c, _0x520e04[_0x276863(0x19d)](_0x276863(0x1a4), _0x5e9451);
+                };
+            </script>
+        {% elif user.is_authenticated %}
+            <div class="alert alert-danger" role="alert">
+                관리자만 사용할 수 있는 기능입니다.
+            </div>
+        {% else %}
+            <div class="alert alert-danger mt-2" role="alert">
+                <a href="{% url 'signin' %}" class="alert-link">로그인이 필요합니다.</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

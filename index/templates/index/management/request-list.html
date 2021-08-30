@@ -1,0 +1,135 @@
+{% extends 'index/base/base.html' %}
+{% block contents %}
+    <div class="container">
+        {% if user.is_authenticated and user.is_admin %}
+            <h1 class="mt-2 mb-3 fw-normal text-center">승인 대기 목록</h1>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">학번</th>
+                    <th scope="col">이름</th>
+                    <th scope="col">승인</th>
+                    <th scope="col">거부</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in page_obj %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ user.number }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#requestSubmit"
+                                    onclick="request('승인', '{{ user.number }}', '{{ user.name }}');">
+                                승인
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#requestSubmit"
+                                    onclick="request('거부', '{{ user.number }}', '{{ user.name }}');">
+                                거부
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% for page_num in page_obj.paginator.page_range %}
+                        <li class="page-item {% if page_num == page_obj.number %}active{% endif %}">
+                            <a class="page-link" href="#">{{ page_num }}</a>
+                        </li>
+                    {% endfor %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <a href="{% url 'deny-list' %}" class="btn btn-secondary float-end ms-2">승인 거부 목록</a>
+            <a href="{% url 'user-list' %}" class="btn btn-primary float-end">사용자 목록</a>
+            <div class="modal fade" id="requestSubmit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                 aria-labelledby="requestSubmitLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="requestSubmitLabel">
+                                사용자를 <span class="request-type"></span>하시겠습니까?
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <span id="modal-text" class="text-primary"></span>님을 <span class="request-type"></span>하시겠습니까?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                            <a href="#" class="btn btn-primary" id="modal-submit-btn">
+                                <span class="request-type"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                (function (_0x39a1f4, _0x3c5327) {
+                    const _0x45487c = _0x5c96, _0x5c3703 = _0x39a1f4();
+                    while (!![]) {
+                        try {
+                            const _0x106a95 = parseInt(_0x45487c(0xb2)) / 0x1 + parseInt(_0x45487c(0xb0)) / 0x2 + -parseInt(_0x45487c(0xaa)) / 0x3 + -parseInt(_0x45487c(0xb1)) / 0x4 * (-parseInt(_0x45487c(0xa3)) / 0x5) + -parseInt(_0x45487c(0xad)) / 0x6 + parseInt(_0x45487c(0xa8)) / 0x7 * (-parseInt(_0x45487c(0xa0)) / 0x8) + parseInt(_0x45487c(0xb3)) / 0x9 * (parseInt(_0x45487c(0xab)) / 0xa);
+                            if (_0x106a95 === _0x3c5327) break; else _0x5c3703['push'](_0x5c3703['shift']());
+                        } catch (_0x1308bc) {
+                            _0x5c3703['push'](_0x5c3703['shift']());
+                        }
+                    }
+                }(_0x274a, 0x4678a));
+
+                function _0x274a() {
+                    const _0x1d22be = ['innerText', 'submit/', 'modal-text', '1883cdTEuh', 'length', '1332495RftdGr', '1610DZNgEw', 'setAttribute', '864432RgGPOh', 'deny/', 'getElementsByClassName', '453634gwzQGp', '414536JzRCIb', '447976EAdekc', '24759FenKGW', '/admin/request/', '16408Uflubq', 'getElementById', 'item', '15EPMgnl', 'href'];
+                    _0x274a = function () {
+                        return _0x1d22be;
+                    };
+                    return _0x274a();
+                }
+
+                function _0x5c96(_0xbed932, _0x308949) {
+                    const _0x274ab3 = _0x274a();
+                    return _0x5c96 = function (_0x5c968b, _0x3865c2) {
+                        _0x5c968b = _0x5c968b - 0xa0;
+                        let _0x357a98 = _0x274ab3[_0x5c968b];
+                        return _0x357a98;
+                    }, _0x5c96(_0xbed932, _0x308949);
+                }
+
+                const request = (_0x162f6f, _0x2765e3, _0x453dcb) => {
+                    const _0x1ebdee = _0x5c96;
+                    let _0x3158ad = document[_0x1ebdee(0xa1)](_0x1ebdee(0xa7)),
+                        _0x1e342f = document['getElementById']('modal-submit-btn'),
+                        _0x26b7dc = document[_0x1ebdee(0xaf)]('request-type'), _0x2d5e2a = _0x1ebdee(0xb4);
+                    _0x162f6f === '승인' ? _0x2d5e2a += _0x1ebdee(0xa6) + _0x2765e3 : _0x2d5e2a += _0x1ebdee(0xae) + _0x2765e3;
+                    _0x3158ad[_0x1ebdee(0xa5)] = _0x2765e3 + '\x20' + _0x453dcb, _0x1e342f[_0x1ebdee(0xac)](_0x1ebdee(0xa4), _0x2d5e2a);
+                    for (let _0x2eedd0 = 0x0; _0x2eedd0 < _0x26b7dc[_0x1ebdee(0xa9)]; _0x2eedd0++) {
+                        _0x26b7dc[_0x1ebdee(0xa2)](_0x2eedd0)['innerHTML'] = _0x162f6f;
+                    }
+                };
+            </script>
+        {% elif user.is_authenticated %}
+            <div class="alert alert-danger" role="alert">
+                관리자만 사용할 수 있는 기능입니다.
+            </div>
+        {% else %}
+            <div class="alert alert-danger mt-2" role="alert">
+                <a href="{% url 'signin' %}" class="alert-link">로그인이 필요합니다.</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'index/base/base.html' %}
+{% block contents %}
+    <div class="container">
+        {% if user.is_authenticated and user.is_admin %}
+            <h1 class="mt-2 mb-3 fw-normal text-center">사용자 수정</h1>
+            <div>
+                <form action="{% url 'update-user' number %}" method="POST">
+                    {% csrf_token %}
+                    <div class="row mb-3">
+                        <label for="inputNumber" class="col-sm-3 col-form-label">학번</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="inputNumber"
+                                   value="{{ number }}" name="number">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputName" class="col-sm-3 col-form-label">이름</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="inputName"
+                                   value="{{ name }}" name="name">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputRepository" class="col-sm-3 col-form-label">깃허브</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="inputRepository"
+                                   value="{% if repository %}{{ repository }}{% endif %}" name="repository">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputRepository" class="col-sm-3 col-form-label">관리자</label>
+                        <div class="form-check col-sm-9">
+                            <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault"
+                                   name="is_admin" {% if is_admin %}checked{% endif %}>
+                            <label class="form-check-label" for="flexCheckDefault">
+                                관리자 권한 여부
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">비밀번호 변경</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" id="inputPassword"
+                                   placeholder="반드시 8~20자 내에 숫자를 1개 이상 포함해야 합니다." name="password"
+                                   value="{{ password }}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputConfirmPassword" class="col-sm-3 col-form-label">비밀번호 확인</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" id="inputConfirmPassword"
+                                   name="confirm_password" value="{{ confirm_password }}">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-4">수정</button>
+                </form>
+            </div>
+            {% for error in errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ error }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% elif user.is_authenticated %}
+            <div class="alert alert-danger" role="alert">
+                관리자만 사용할 수 있는 기능입니다.
+            </div>
+        {% else %}
+            <div class="alert alert-danger mt-2" role="alert">
+                <a href="{% url 'signin' %}" class="alert-link">로그인이 필요합니다.</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

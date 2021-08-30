@@ -1,0 +1,122 @@
+{% extends 'index/base/base.html' %}
+{% block contents %}
+    <div class="container">
+        {% if user.is_authenticated and user.is_admin %}
+            <h1 class="mt-2 mb-3 fw-normal text-center">승인 거부 / 삭제 목록</h1>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">학번</th>
+                    <th scope="col">이름</th>
+                    <th scope="col">승인</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in page_obj %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ user.number }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#requestSubmit"
+                                    onclick="request('{{ user.number }}', '{{ user.name }}');">
+                                승인
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% for page_num in page_obj.paginator.page_range %}
+                        <li class="page-item {% if page_num == page_obj.number %}active{% endif %}">
+                            <a class="page-link" href="#">{{ page_num }}</a>
+                        </li>
+                    {% endfor %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <a href="{% url 'request-list' %}" class="btn btn-secondary float-end">승인 대기 목록</a>
+            <div class="modal fade" id="requestSubmit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                 aria-labelledby="requestSubmitLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="requestSubmitLabel">
+                                사용자를 승인하시겠습니까?
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <span id="modal-text" class="text-primary"></span>님을 승인하시겠습니까?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                            <a href="#" class="btn btn-primary" id="modal-submit-btn">
+                                승인
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                (function (_0x2e6ad4, _0x421959) {
+                    const _0xa1c7e2 = _0x4d27, _0x502954 = _0x2e6ad4();
+                    while (!![]) {
+                        try {
+                            const _0x55ba31 = parseInt(_0xa1c7e2(0x1c7)) / 0x1 + -parseInt(_0xa1c7e2(0x1c9)) / 0x2 + parseInt(_0xa1c7e2(0x1ca)) / 0x3 * (-parseInt(_0xa1c7e2(0x1c8)) / 0x4) + parseInt(_0xa1c7e2(0x1d3)) / 0x5 + -parseInt(_0xa1c7e2(0x1c6)) / 0x6 * (parseInt(_0xa1c7e2(0x1d4)) / 0x7) + -parseInt(_0xa1c7e2(0x1d0)) / 0x8 + -parseInt(_0xa1c7e2(0x1cb)) / 0x9 * (-parseInt(_0xa1c7e2(0x1d1)) / 0xa);
+                            if (_0x55ba31 === _0x421959) break; else _0x502954['push'](_0x502954['shift']());
+                        } catch (_0xf02441) {
+                            _0x502954['push'](_0x502954['shift']());
+                        }
+                    }
+                }(_0x1c32, 0xafab0));
+
+                function _0x4d27(_0x486f23, _0x5b74ca) {
+                    const _0x1c32c5 = _0x1c32();
+                    return _0x4d27 = function (_0x4d2755, _0xbe5dc) {
+                        _0x4d2755 = _0x4d2755 - 0x1c5;
+                        let _0x2de0c2 = _0x1c32c5[_0x4d2755];
+                        return _0x2de0c2;
+                    }, _0x4d27(_0x486f23, _0x5b74ca);
+                }
+
+                function _0x1c32() {
+                    const _0x4eacc9 = ['modal-text', '9054GawsvK', '105978TRtxWv', '4BceHCp', '345172KtsPOb', '2755251LjSuSm', '25002099KjzdAt', 'setAttribute', 'href', '/admin/deny/submit/', 'modal-submit-btn', '7079720xACXaR', '10zFUnen', 'getElementById', '2422645zqeFab', '3122EfEFKW'];
+                    _0x1c32 = function () {
+                        return _0x4eacc9;
+                    };
+                    return _0x1c32();
+                }
+
+                const request = (_0x136948, _0x291d48) => {
+                    const _0x1f9225 = _0x4d27;
+                    let _0x213245 = document[_0x1f9225(0x1d2)](_0x1f9225(0x1c5)),
+                        _0x1a2e14 = document[_0x1f9225(0x1d2)](_0x1f9225(0x1cf)),
+                        _0x1cdd49 = _0x1f9225(0x1ce) + _0x136948;
+                    _0x213245['innerText'] = _0x136948 + '\x20' + _0x291d48, _0x1a2e14[_0x1f9225(0x1cc)](_0x1f9225(0x1cd), _0x1cdd49);
+                };
+            </script>
+        {% elif user.is_authenticated %}
+            <div class="alert alert-danger" role="alert">
+                관리자만 사용할 수 있는 기능입니다.
+            </div>
+        {% else %}
+            <div class="alert alert-danger mt-2" role="alert">
+                <a href="{% url 'signin' %}" class="alert-link">로그인이 필요합니다.</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
