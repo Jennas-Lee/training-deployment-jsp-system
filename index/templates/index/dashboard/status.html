@@ -1,0 +1,12 @@
+{% extends 'index/base/base.html' %}
+{% block contents %}
+    <div class="container">
+        {% if user.is_authenticated %}
+            <h1 class="text-center">대시보드</h1>
+        {% else %}
+            <div class="alert alert-danger mt-2" role="alert">
+                <a href="{% url 'signin' %}" class="alert-link">로그인이 필요합니다.</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
