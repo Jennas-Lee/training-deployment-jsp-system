@@ -10,7 +10,41 @@
 `응용프로그래밍 개발Ⅱ`에서 배우는 **JSP**를 직접 인터넷 상에 배포하는 실습을 진행하는 시스템입니다.
 
 # How to use
+CentOS7과 Amazon Linux 2(권장)를 지원합니다.
 
+## CentOS
+**반드시 root권한이 있는 상태에서 실행해야 합니다.**
+1. 설정파일을 다운로드합니다.
+```shell
+curl -O https://raw.githubusercontent.com/Jennas-Lee/training-deployment-jsp-system/master/scripts/centos.sh 
+```
+
+2. 실행권한을 부여합니다.
+```shell
+chmod +x ./centos.sh
+```
+
+3. 실행합니다.
+```shell
+./centos.sh
+```
+
+## Amazon Linux 2
+**반드시 root권한이 있는 상태에서 실행해야 합니다.**
+1. 설정파일을 다운로드합니다.
+```shell
+curl -O https://raw.githubusercontent.com/Jennas-Lee/training-deployment-jsp-system/master/scripts/amazonlinux.sh 
+```
+
+2. 실행권한을 부여합니다.
+```shell
+chmod +x ./centos.sh
+```
+
+3. 실행합니다.
+```shell
+./centos.sh
+```
 
 
 # Tech Stack

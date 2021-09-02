@@ -1,0 +1,42 @@
+version: "3"
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - /nginx:/etc/nginx:ro
+    networks:
+      jspnet:
+        ipv4_address: 172.30.10.10
+
+  web:
+    container_name: web
+    image: web:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=${mysql_password}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      jspnet:
+        ipv4_address: 172.30.10.20
+
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=${mysql_password}
+    volumes:
+      - /mysql:/bitnami/mysql/data
+    networks:
+      jspnet:
+        ipv4_address: 172.30.10.30
+
+networks:
+  jspnet:
+    ipam:
+      driver: bridge
+      config:
+        - subnet: 172.30.0.0/16
+        - gateway: 172.30.0.1

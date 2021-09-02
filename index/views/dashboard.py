@@ -8,5 +8,33 @@ from index.models import User
 
 
 def dashboard(request):
-    client = docker.DockerClient(base_url='tcp://hub.docker.internal')
-    return render(request, 'index/dashboard/status.html')
+    page_number = request.GET.get('page')
+    models = []
+    users = User.objects.order_by('number').all()
+    # client = docker.DockerClient(base_url='unix://var/run/docker.sock')
+
+    for user in users:
+        # container_status = None
+        # try:
+        #     container_status = client.containers.get(user.number)
+        # except docker.errors.NotFound:
+        #     container_status = None
+
+        model = {
+            'number': user.number,
+            'name': user.name,
+            'repository': user.repository,
+            # 'container_status': container_status
+        }
+        models.append(model)
+
+    paginator = Paginator(models, 15)
+    page_obj = paginator.get_page(page_number)
+    print(request.get_host())
+
+    #
+    # client.containers.list(all=True, filters={'network': 'jspnet'})
+    #
+    # client.close()
+
+    return render(request, 'index/dashboard/status.html', {'page_obj': page_obj})
