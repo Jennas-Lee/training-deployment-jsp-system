@@ -25,12 +25,12 @@ def dashboard(request):
             'name': user.name,
             'repository': user.repository,
             # 'container_status': container_status
+            'container_status': 1
         }
         models.append(model)
 
     paginator = Paginator(models, 15)
     page_obj = paginator.get_page(page_number)
-    print(request.get_host())
 
     #
     # client.containers.list(all=True, filters={'network': 'jspnet'})

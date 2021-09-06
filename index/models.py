@@ -55,3 +55,12 @@ class User(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
+
+
+class Deploy(models.Model):
+    idx = models.AutoField(primary_key=True)
+    commit = models.URLField(null=False)
+    success = models.BooleanField(null=False)
+    date = models.DateTimeField(null=False, auto_now_add=True)
+
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)

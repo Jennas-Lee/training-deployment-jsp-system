@@ -1,0 +1,17 @@
+{% extends 'index/base/base.html' %}
+{% load static %}
+{% block contents %}
+    <div class="container">
+        {% if user.is_authenticated %}
+            <h1 class="text-center">내 애플리케이션</h1>
+            {% if user.repository %}
+                <h5>최근 배포</h5>
+            {% else %}
+            {% endif %}
+        {% else %}
+            <div class="alert alert-danger mt-2" role="alert">
+                <a href="{% url 'signin' %}" class="alert-link">로그인이 필요합니다.</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

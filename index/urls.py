@@ -4,6 +4,7 @@ from index.views.auth import signin, signup, signout, mypage
 from index.views.management import user_list, request_list, deny_list, request_submit, request_deny, deny_submit, \
     update_user, delete_user
 from index.views.dashboard import dashboard
+from index.views.application import status
 
 index_urlpatterns = [
     path('', index, name='index'),
@@ -22,4 +23,5 @@ index_urlpatterns = [
     path('admin/delete/<str:user_number>', delete_user, name='delete-user'),
 
     path('dashboard/status', dashboard, name='dashboard'),
+    path('application/status', status, name='application-status'),
 ]
